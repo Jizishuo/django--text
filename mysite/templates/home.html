@@ -1,0 +1,322 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    傻乎|首页
+{% endblock %}
+
+
+{% block header_extends %}
+<link rel="stylesheet" href="{% static 'home/home.css' %}">
+<script src="http://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+
+
+{% endblock %}
+
+{% block nav_home_active %}active{% endblock %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h1>Hello!</h1>
+                <blockquote>
+                <p>可随意发布健康内容，详情可看公告,测试出bug可任意方式连续版主</p>
+                    <footer><del>欢迎。来到我的web(持续更新ing)</del></footer>
+                </blockquote>
+
+                <ul style="float: right">
+                    <li><span class="label label-danger" >总浏览:{{read_num_all}}</span></li>
+                    <li><span class="label label-success">需要重启浏览器才有计数</span></li>
+                </ul>
+            </div>
+    </div>
+</div>
+<!--第一版-->
+<div class="row">
+  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+    <div class="col-xs-12 col-sm-11 col-md-11 col-lg-11">
+        <span class="glyphicon glyphicon-pencil title-fist"></span>
+        <span class="title-fist">傻乎</span>
+        <span>共{{ shahu_all_num }}篇傻乎</span>
+        <a href="{% url 'shahu_list' %}" target="_blank"><small>more>></small></a>
+
+    </div>
+</div>
+
+<div class="content-main">
+<div class="row">
+  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+  <div class=" col-xs-6 col-sm-2 col-md-2 col-lg-2">
+    <div class="content-main-frist">
+      <span class="glyphicon glyphicon-th-list"></span>
+      傻乎分类
+      <span class="label label-success">{{ Shahu_type_len }}</span>
+      <hr/>
+        <ul>
+            {% for shahu_type in shahu_types %}
+            <li><a href="{% url 'shahus_with_type' shahu_type.pk %}" target="_blank">
+                {{ shahu_type.type_name }}
+                <span class="badge">{{ shahu_type.shahu_count }}</span></a></li>
+            {% empty %}
+            <p>暂无，更新ing</p>
+            {% endfor %}
+        </ul>
+    </div>
+  </div>
+  <div class=" col-xs-6 col-sm-2 col-md-2 col-lg-2">
+      <div class="content-main-frist">
+      <span class="glyphicon glyphicon-send"></span>
+      地点分类
+      <span class="label label-success">{{ Location_len }}</span>
+      <hr />
+          <ul>
+              {% for Location in Locations%}
+              <li><a href="{% url 'shahus_location' Location.pk %}" target="_blank">{{ Location.Location }}<span class="badge">{{ Location.shahu_count }}</span></a></li>
+              {% empty %}
+              <p>暂无，更新ing</p>
+              {% endfor %}
+          </ul>
+      </div>
+  </div>
+  <div class=" col-xs-12 col-sm-6 col-md-6 col-lg-6">
+
+     <div class="content-main-frist">
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">个人微信</a></li>
+        <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">一周阅读量</a></li>
+        <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">公告</a></li>
+
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="home">
+            <div class="row">
+                <div class=" hidden-4 col-sm-4 col-md-4 col-lg-4">
+                    <img src="{% static 'image/11.jpg' %}" alt="...">
+                </div>
+                <div class=" hidden-8 col-sm-8 col-md-8 col-lg-8">
+                    <div class="caption">
+                        <strong>什么都不是的废物</strong><p>(版主)</p>
+                        <p>较高级复杂的劳动，是这样一种劳动力的表现，这种劳动力比较普通的劳动力需要较高的教育费用，它的生产需要花费较多的劳动时间。因此，具有较高的价值。 —— 马克思</p>
+                        </div>
+                </div>
+            </div>
+
+            </div>
+        <div role="tabpanel" class="tab-pane" id="profile">
+                 <!-- 图表容器 DOM -->
+                <div id="container"></div>
+
+        </div>
+        <div role="tabpanel" class="tab-pane" id="messages">
+            <ul>
+                <li>傻乎日期分类,暂时还在更新..</li>
+                <li>商品列表,写个小商城,暂时还在更新..</li>
+                <li>猜你喜欢需要al,数据量不够,等开发..</li>
+            </ul>
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+</div>
+</div>
+<!--第二版-->
+<div class="row">
+  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+    <div class="col-xs-12 col-sm-11 col-md-11 col-lg-11">
+        <span class="glyphicon glyphicon-hand-right title-second"></span>
+        <span class="title-fist">推荐</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="content-main-frist">
+  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+  <div class=" col-xs-12 col-sm-3 col-md-3 col-lg-3">
+      <span class="glyphicon glyphicon-heart"></span>
+      猜你喜欢（更新ing）
+  <hr/>
+      <ul>
+           <li>努力更新ing</li>
+       </ul>
+  </div>
+   <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+       <span class="glyphicon glyphicon-tasks"></span>
+       最新发表
+   <hr/>
+       <ul>
+           {% for shahu in shahus_new_list %}
+           <li><a href="{% url 'shahu_detail' shahu.pk%}" target="_blank">{{ shahu.title }}</a>
+               <span class="label label-default" style="float: right">阅读量{{ shahu.get_read_num }}
+                   <a href="{% url 'search_profile' shahu.author.pk %}">
+                       <small class="glyphicon glyphicon-user" style="float: right">
+                       {% if shahu.author.has_nickname %} {{ shahu.author.get_nickname }}
+                       {% else %} {{ shahu.author.username}}
+                       {% endif %}
+                        </small>
+                   </a></span>
+
+           </li>
+           {% empty %}
+           <p>暂无，更新ing</p>
+           {% endfor %}
+       </ul>
+   </div>
+   <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+       <span class="glyphicon glyphicon-list-alt"></span>
+       随机推荐
+   <hr/>
+       <ul>
+           {% for shahu in shahu_random %}
+           <li><a href="{% url 'shahu_detail' shahu.pk %}" target="_blank">{{ shahu.title }}</a>
+           <span class="label label-default" style="float: right">阅读量{{ shahu.get_read_num }}
+           <a href="{% url 'search_profile' shahu.author.pk %}">
+                       <small class="glyphicon glyphicon-user" style="float: right">
+                       {% if shahu.author.has_nickname %} {{ shahu.author.get_nickname }}
+                       {% else %} {{ shahu.author.username}}
+                       {% endif %}
+                        </small>
+                   </a></span></li>
+           {% empty %}
+           <p>暂无，更新ing</p>
+           {% endfor %}
+       </ul>
+   </div>
+   <div class="hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+</div>
+</div>
+
+
+
+<div class="row">
+  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+    <div class="col-xs-12 col-sm-11 col-md-11 col-lg-11">
+        <span class="glyphicon glyphicon-fire title-second"></span>
+        <span class="title-fist">热门</span>
+    </div>
+</div>
+
+<div class="row">
+    <div class="content-main-frist">
+  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+  <div class=" col-xs-12 col-sm-3 col-md-3 col-lg-3">
+      昨天最热
+  <hr/>
+      <ul>
+           {% for shahu in yesterday_hot_data %}
+           <li><a href="{% url 'shahu_detail' shahu.content_object.pk %}" target="_blank">{{ shahu.content_object.title  }}</a>
+               <span class="label label-default" style="float: right">阅读量{{ shahu.content_object.get_read_num }}
+                   <a href="{% url 'search_profile' shahu.content_object.author.pk %}">
+                       <small class="glyphicon glyphicon-user" style="float: right">
+                       {% if shahu.content_object.author.has_nickname %} {{ shahu.content_object.author.get_nickname }}
+                       {% else %} {{ shahu.content_object.author.username}}
+                       {% endif %}
+                        </small>
+                   </a></span>
+           </li>
+
+           {% empty %}
+           <p>暂无，更新ing</p>
+           {% endfor %}
+       </ul>
+  </div>
+   <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+       一周最热
+   <hr/>
+       <ul>
+           {% for shahu in get_7_days_hot_shahus %}
+           <li><a href="{% url 'shahu_detail' shahu.id %}" target="_blank">{{ shahu.title  }}</a>
+               <span class="label label-default" style="float: right">阅读量{{ shahu.read_num_sum }}
+                   <a href="{% url 'search_profile' shahu.author %}">
+                       <small class="glyphicon glyphicon-user" style="float: right">
+                       匿名
+                        </small>
+                   </a></span>
+
+           </li>
+
+           {% empty %}
+           <p>暂无，更新ing</p>
+           {% endfor %}
+       </ul>
+   </div>
+   <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+       总榜
+   <hr/>
+       <ul>
+           {% for shahu in get_all_hot_data %}
+           <li><a href="{% url 'shahu_detail' shahu.content_object.pk %}" target="_blank">{{ shahu.content_object.title  }}</a>
+               <span class="label label-default" style="float: right">阅读量{{ shahu.content_object.get_read_num }}
+                   <a href="{% url 'search_profile' shahu.content_object.author.pk %}">
+                       <small class="glyphicon glyphicon-user" style="float: right">
+                       {% if shahu.content_object.author.has_nickname %} {{ shahu.content_object.author.get_nickname }}
+                       {% else %} {{ shahu.content_object.author.username}}
+                       {% endif %}
+                        </small>
+                   </a></span>
+           </li>
+
+           {% empty %}
+           <p>暂无，更新ing</p>
+           {% endfor %}
+       </ul>
+   </div>
+
+
+   <div class="hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+</div>
+</div>
+
+<script>// 图表配置
+        var options = {
+            chart: {
+                type: 'line'                          //指定图表的类型，默认是折线图（line）
+            },
+            title: {
+                text: null                // 标题
+            },
+            xAxis: {
+                categories: {{ dates|safe }},
+                tickmarkPlacement: 'on',
+                title: { text: '前7日阅读量变化'},// x 轴分类
+            },
+            yAxis: {
+                title: {
+                    text: null              // y 轴标题
+                },
+                labels:{ enabled: false },// y 轴数字不显示
+                gridLineDashStyle: 'Dash', //y轴虚线
+            },
+            series: [{                              // 数据列
+                name: '阅读量',                        // 数据列名
+                data: {{ read_nums }}                     // 数据
+            }, {
+                name: '警告线',
+                data: [8, 8, 8,8, 8, 8,8]
+            }],
+            plotOptions: {                          //数据标签
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    }
+                }
+            },
+            legend: { enabled: false }, //图例不显示
+            credits: { enabled: false },//下表版权不显示
+        };
+        // 图表初始化函数
+        var chart = Highcharts.chart('container', options);</script>
+
+
+{% endblock %}
+

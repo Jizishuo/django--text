@@ -1,0 +1,207 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load comment_tags %}
+
+{% block title %}
+    傻乎|列表
+{% endblock %}
+
+
+{% block header_extends %}
+<link rel="stylesheet" href="{% static 'home/shahu_list.css' %}">
+<script type="text/javascript" src="{% static 'home/shahu.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{% endblock %}
+
+{% block nav_shahu_active %}active{% endblock %}
+
+{% block content %}
+   <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-8 col-md-8 col-lg-9">
+
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <strong style="font-size: 180%;">{% block shahu_list_title %}傻乎列表{% endblock %}</strong>
+                        {% block shahu_list_title2 %}{% endblock %}
+                        <hr>
+{% block nav_shahu_data %}
+                        <form><span class="glyphicon glyphicon-time">日期选择</span>
+                          <div class="checkbox">
+                            <label>
+                              <input type="checkbox"> 1
+                            </label>
+                              <label>
+                              <input type="checkbox"> 2
+                            </label>
+                              <label>
+                              <input type="checkbox"> 3
+                            </label>
+                              <label>
+                              <input type="checkbox"> 4
+                            </label>
+                          </div>
+                          <button type="submit" class="btn btn-default">选择</button>
+                        </form>
+{% endblock %}
+                    </div>
+                </div>
+{% block nav_shahu_centent %}
+                        <dl>
+                            {% for shahu in shahus %}
+
+
+                            <dt><a href="{% url 'shahu_detail' shahu.pk %}" target="_blank">{{ shahu.title}}</a></dt>
+                              <dd>{{ shahu.content|striptags|truncatechars:40}}</dd>
+                            <h6>
+                                <small class="glyphicon glyphicon-user">
+                                    <a href="{% url 'search_profile' shahu.author.pk %}">
+                                        {% if shahu.author.has_nickname %} {{ shahu.author.get_nickname }}
+                                           {% else %} {{ shahu.author.username}}
+                                           {% endif %}
+                                    </a></small>&emsp;
+                                <small class="glyphicon glyphicon-dashboard">{{ shahu.created_time|date:"Y-m-d"}}</small>&emsp;
+                                <small class="glyphicon glyphicon-map-marker">
+                                    <a href="{% url 'shahus_location' shahu.location.pk %}">{{ shahu.location}}</a></small>&emsp;
+                                <small class="glyphicon glyphicon-th-list">
+                                    <a href="{% url 'shahus_with_type' shahu.shahu_type.pk %}">{{ shahu.shahu_type}}</a></small>&emsp;
+                                <small class="label label-info">阅读:{{shahu.get_read_num}}</small>&emsp;
+                                <small class="label label-warning">评论:{% get_comment_count shahu %}</small>
+
+                            </h6>
+                            <hr id="shahu-list">
+                            {% empty %}
+                            <dt>暂无，更新ing</dt>
+                            {% endfor %}
+                            </hr></dl>
+
+
+
+                <div class="paginator">
+                    <ul class="pagination">
+                        {# 上一页 #}
+                        <li>
+                            {% if page_of_shahus.has_previous %}
+                                <a href="?page={{ page_of_shahus.previous_page_number }}" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            {% else %}
+                                <span aria-hidden="true">&laquo;</span>
+                            {% endif %}
+                        </li>
+                        {# 全部页码 #}
+                        {% for page_num in page_range %}
+                            {% if page_num == page_of_shahus.number %}
+                                <li class="active"><span>{{ page_num }}</span></li>
+                            {% else %}
+                                {% if page_num == '...' %}
+                                    <li><span>{{ page_num }}</span></li>
+                                {% else %}
+                                    <li><a href="?page={{ page_num }}">{{ page_num }}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        {# 下一页 #}
+                        <li>
+                            {% if page_of_shahus.has_next %}
+                                <a href="?page={{ page_of_shauhs.next_page_number }}" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            {% else %}
+                                <span aria-hidden="true">&raquo;</span>
+                            {% endif %}
+                        </li>
+                    </ul>
+                    <p>
+                        共有{{ page_of_shahus.paginator.count }}篇傻乎，
+                        当前第{{ page_of_shahus.number }}页，共{{ page_of_shahus.paginator.num_pages }}页
+                    </p>
+                </div>
+{%endblock%}
+
+{% block nav_shahu_comment %}
+                      {% if user.is_authenticated %}
+                <div id="updata-shahu">
+                      <form action="{% url 'update_shahu' %}?from={{ request.get_full_path }}" method="POST" style="overflow:hidden">
+                          <div class="panel panel-success" style="margin-top: 10px;">
+                            <div class="panel-heading">{{ user.get_nickname_or_username }}，欢迎发布~</div>
+                           </div>
+                            <hr>
+                            {% csrf_token %}
+                            {% for field in shahu_form %}
+                                {{ field }}
+                            {% endfor %}
+                            <span id="comment_error" class="text-danger pull-left"></span>
+                            <input type="submit" value="发布" class="btn btn-primary pull-right">
+                        </form>
+                    </div>
+                       {% else %}
+
+                        <div class="panel panel-danger" style="margin-top: 10px;">
+                            <div class="panel-heading">发布傻乎</div>
+                        </div>
+                          您尚未登录，登录之后方可发布傻乎~
+                          <a class="btn btn-primary" href="{% url 'login' %}?from={{ request.get_full_path }}">登录</a>
+                          <span> or </span>
+                          <a class="btn btn-danger" href="{% url 'register' %}?from={{ request.get_full_path }}">注册</a>
+                        {% endif %}
+{%endblock%}
+
+            </div>
+<!--右边的显示-->
+{% block nav_shahu_right %}
+            <div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <span class="glyphicon glyphicon-th-list"></span>
+                          傻乎分类
+                          <span class="label label-success">{{ Shahu_type_len }}</span>
+                          <hr/>
+                            <ul>
+                                {% for shahu_type in shahu_types %}
+                                <li><a href="{% url 'shahus_with_type' shahu_type.pk %}">
+                                        {{ shahu_type.type_name }}
+                                <span class="badge">{{ shahu_type.shahu_count }}</span></a></li>
+                                {% empty %}
+                                  <p>暂无，更新ing</p>
+                                {% endfor %}
+                            </ul>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <span class="glyphicon glyphicon-send"></span>
+                          地点分类
+                          <span class="label label-success">{{ Location_len }}</span>
+                          <hr />
+                              <ul>
+                                {% for Location in Locations%}
+                                <li><a href="{% url 'shahus_location' Location.pk %}">{{ Location.Location }}<span class="badge">{{ Location.shahu_count }}</span></a></li>
+                                {% empty %}
+                                  <p>暂无，更新ing</p>
+                                {% endfor %}
+                            </ul>
+                    </div>
+                </div>
+
+                <div class="panel panel-danger">
+                  <div class="panel-heading"><span class="glyphicon glyphicon-heart"></span>
+                          猜你喜欢（未实现）</div>
+                  <div class="panel-body">
+                    <p>敬请期待!!</p>
+                  </div>
+                </div>
+            </div>
+ {% endblock %}
+
+        </div>
+   </div>
+
+
+{% endblock %}
+
+
+{% block nav_preofile_liuyan %}{% endblock %}
+

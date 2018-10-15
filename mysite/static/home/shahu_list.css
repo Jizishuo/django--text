@@ -1,0 +1,80 @@
+div.container{
+    margin-top: 100px;
+}
+
+div.shahu-content{
+    text-indent: 2em;
+    margin-bottom: 2em;
+    word-wrap: break-word; word-break: normal;
+}
+
+input#id_title{
+    margin-bottom: 10px;
+}
+
+
+select#id_shahutype{
+    width: 49%;
+    float: left;
+    margin-bottom: 20px;
+}
+select#id_location{
+    width: 49%;
+    float: right;
+    margin-bottom: 20px;
+}
+
+div.comment-area {
+    margin-top: 2em;
+}
+h3.comment-area-title {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.4em;
+}
+
+div.django-ckeditor-widget {
+    width: 100%;
+}
+
+div.comment {
+    border-bottom: 1px dashed #ccc;
+    margin-bottom: 0.5em;
+    padding-bottom: 0.5em;
+}
+div.reply {
+    margin-left: 2em;
+}
+div#reply_content_container {
+    border: 1px solid #d1d1d1;
+    border-bottom: none;
+    background-color: #f8f8f8;
+    overflow: hidden;
+    padding: 1em 1em 0.5em;
+}
+p#reply_title {
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 0.5em;
+}
+
+div.like {
+    color: #337ab7;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0.5em 0.3em;
+}
+
+div.like .active{
+    color: #f22;
+}
+
+h3.search-color {
+    color: #d43f3a;
+}
+
+hr#shahu-list{
+    height:2px;
+    border:none;
+    border-top:1px
+    double
+    #1a1a1a;
+}

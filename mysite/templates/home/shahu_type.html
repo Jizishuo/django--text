@@ -1,0 +1,10 @@
+{% extends 'home/shahu_list.html' %}
+{% load staticfiles %}
+
+{% block shahu_list_title %}
+分类-{{ shahu_type }}
+{% endblock %}
+
+{% block shahu_list_title2 %}<a href="{% url 'shahu_list' %}"><small>全部>></small></a>{% endblock %}
+
+{% block nav_shahu_data %}{% endblock %}

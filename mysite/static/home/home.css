@@ -1,0 +1,45 @@
+div.jumbotron{
+    background-image: linear-gradient(to top, rgba(46, 49, 65, 0), rgba(46, 49, 65, 1));
+    /*background: linear-gradient(45deg, #dca 12%, transparent 0, transparent 88%, #dca 0),linear-gradient(135deg, transparent 37%, #a85 0, #a85 63%, transparent 0),linear-gradient(45deg, transparent 37%, #dca 0, #dca 63%, transparent 0) #753;background-size: 25px 25px;*/
+}
+
+div.jumbotron div.row {
+    margin-top: 20px;
+    margin-left: 10px;
+}
+div.row div span.title-fist{
+    margin-top: 20px;
+    font-size: 180%;
+    margin-right: 10px;
+}
+
+div.content-main{
+    background: white;
+}
+div.content-main-frist{
+    margin-top: 20px;
+}
+
+div#container{
+    margin: 0 auto;
+    width: auto;
+    height:15em;
+}
+
+div.row hr {
+    height:2px;
+    border:none;
+    border-top:2px
+    double
+    #1a1a1a;
+}
+div.tab-pane{
+    margin-top: 20px;
+}
+
+div.row div span.title-second{
+    margin-top: 100px;
+    font-size: 180%;
+    margin-right: 10px;
+}
+

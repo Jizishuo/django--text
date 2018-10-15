@@ -1,0 +1,20 @@
+{% extends 'axf/base.html' %}
+{% load static from staticfiles %}
+
+
+{% block linkscript%}
+    <link rel="stylesheet" type="text/css" href="{% static 'order/order.css' %}" />
+{% endblock linkscript%}
+
+{% block base %}
+<div id="order-main">
+    <ul>
+         {% for item in orderlist %}
+             <p>{{ item.productid }}</p>
+             <img src="{{ item.productimg }}">
+         {% endfor %}
+    </ul>
+    <p>rrrrrrrrrrrrrrrrrr</p>
+    {% if user_in == "error" %}<a href="{% url 'login' %}">请先登录</a>{% endif %}
+</div>
+{% endblock base %}

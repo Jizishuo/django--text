@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block title %}个人资料{% endblock %}
+{% block nav_home_active %}active{% endblock %}
+
+{% block header_extends %}
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="containter">
+        <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                {% if user.is_authenticated %}
+                <div class="jumbotron">
+                    <div>
+                        <h1>Hello!{{ user.username }}</h1>
+                        <ul>
+                            <li><p>个人介绍:</p></li>
+                            <li>{% if user.profile.person_content %}
+                                <p>{{ user.profile.person_content|safe}}<p>
+                                {% else %}
+                                <p>暂无..个人介绍。。。</p>
+                                 {%endif%}
+                            </li>
+                             <!-- Small modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target=".bs-example-modal-sm">添加/修改介绍</button>
+                        </ul>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+                    <div class=" col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                      <span class="glyphicon glyphicon-tasks"></span>
+                        我的关注
+                        <span class="label label-success">{{ friends_list_len }}</span>
+                        <ul>
+                            {% for friend in friends_list%}
+                            <li><a href="{% url 'search_profile' friend.friends.user.pk %}">
+                                        {% if friend.friends.nickname %} {{ friend.friends.nickname }}
+                                           {% else %} {{ friend.friends}}
+                                           {% endif %}
+                                    </a>
+                            <form action="{% url 'remove_friends' %}?from={{ request.get_full_path }}"
+                                      method="POST" style="float: right;font-size: 60%">
+                                          <input type="hidden" name="remove_friends" value="{{friend.friends.pk}}">
+                                        {% csrf_token %}
+                                        <button type="submit" >删除好友</button>
+                                    </form>
+                            </li>
+                            {% empty %}
+                           <p>暂无，更新ing</p>
+                           {% endfor %}
+                        </ul>
+
+                        <hr style="height:2px;border:none;border-top:1px solid #000000;"/>
+
+                        <span class="glyphicon glyphicon-tasks" ></span>
+                        我的粉丝
+                        <span class="label label-success">{{ fans_list_len }}</span>
+                        <ul>
+                            {% for fan in fans_list%}
+                            <li><a href="{% url 'search_profile' fan.fans.user.pk %}">
+                                        {% if fan.fans.nickname %} {{ fan.fans.nickname }}
+                                           {% else %} {{ fan.fans}}
+                                           {% endif %}
+                                    </a>
+                            </li>
+                            {% empty %}
+                           <p>暂无，更新ing</p>
+                           {% endfor %}
+                        </ul>
+
+
+                    </div>
+                    <div class=" col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <span class="glyphicon glyphicon-tasks" ></span>
+                        我的傻乎
+                        <span class="label label-success">{{ shahu_list_len }}</span>
+                        <hr style="height:2px;border:none;border-top:1px solid #000000;"/>
+                        {% for shahus in shahu_list %}
+                        <ul>
+                            <li><a href="{% url 'shahu_detail' shahus.pk %}">{{ shahus.title }}</a>
+                            <form action="{% url 'remove_shahu' %}?from={{ request.get_full_path }}"
+                                      method="POST" style="float: right;font-size: 60%">
+                                          <input type="hidden" name="remove_shahu" value="{{shahus.pk}}">
+                                        {% csrf_token %}
+                                        <button type="submit" >删除傻乎</button>
+                                    </form>
+                            </li>
+                        </ul>
+                        {% empty %}
+                            <a href="">暂无傻乎，去发表</a>
+                        {% endfor %}
+                    </div>
+                    <div class=" col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                        <ul>
+                            <li>昵称：{{ user.get_nickname }} <a href="{% url 'change_nickname'%}?from={{ request.get_full_path }}">修改昵称</a></li>
+                            <li>地点：{%if user.profile.location%}{{ user.profile.location}}{%else%}保密{%endif%}</li>
+                            <li>性别：{{user.profile.get_sexo}}</li>
+                            <li>邮箱：{% if user.email %}{{ user.email }}
+                            <a href="{% url 'bind_email' %}?from={{ request.get_full_path }}">更改邮箱</a>
+                            {% else %}
+                            未绑定<a href="{% url 'bind_email' %}?from={{ request.get_full_path }}">绑定邮箱</a>{% endif %}</li>
+                            <li>我的傻乎：<a href="{% url 'search_profile' user.pk %}">more>></a></li>
+                            <li>上一次登录的时间：{{ user.last_login|date:"Y-m-d H:i:s" }}</li>
+                            <li><a href="{% url 'change_password' %}">修改密码</a></li>
+                        </ul>
+
+                        <div id="updata-location">
+                          <form action="{% url 'update_location' %}?from={{ request.get_full_path }}" method="POST" style="overflow:hidden">
+                                {% csrf_token %}
+                                {% for field in ChangLocationForm %}
+                                    {{ field }}
+                                {% endfor %}
+                                <input type="submit" value="修改地址" class="btn btn-primary pull-right">
+                            </form>
+                        </div>
+
+                        <div id="updata-sexo" style="margin-top: 20px;">
+                          <form action="{% url 'update_sexo' %}?from={{ request.get_full_path }}" method="POST" style="overflow:hidden">
+                                {% csrf_token %}
+                                <label class="radio-inline">
+                                  <input type="radio" name="updata-sexo" id="inlineRadio1" value="男"> 男
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" name="updata-sexo" id="inlineRadio2" value="女"> 女
+                                </label>
+                                <label class="radio-inline">
+                                  <input type="radio" name="updata-sexo" id="inlineRadio3" value="保密"> 保密
+                                </label>
+                                <input type="submit" value="修改性别" class="btn btn-primary pull-right">
+                            </form>
+                        </div>
+
+
+                    </div>
+                  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+                </div>
+
+
+
+<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+        <div class="row">
+        <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+         <div class=" col-xs-10 col-sm-10 col-md-10 col-lg-10">
+             <div id="change_person_content">
+                        <form action="{% url 'change_person_content' %}?from={{ request.get_full_path }}" method="POST" style="overflow:hidden">
+                          <div class="panel panel-success" style="margin-top: 10px;">
+                            <div class="panel-heading">{{ user.get_nickname_or_username }}签名，添加/修改~</div>
+                           </div>
+                            <hr>
+                            {% csrf_token %}
+                            {% for field in ChangePersoncontentForm %}
+                                {{ field }}
+                            {% endfor %}
+                            <span id="comment_error" class="text-danger pull-left"></span>
+                            <input type="submit" value="添加/修改" class="btn btn-primary">
+                        </form>
+                 </div>
+         </div>
+        <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+                {% else %}
+                    <span>未登录，跳转到首页...</span>
+                    <script type="text/javascript">
+                        window.location.href = '/';
+                    </script>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+<h1>支付宝</h1>
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" name="price" placeholder="请输入要支付的金额">
+    <input type="submit" value="支付">
+</form>
+</body>
+</html>

@@ -1,0 +1,73 @@
+{% extends 'home/shahu_list.html' %}
+{% load staticfiles %}
+
+{% block shahu_list_title %}
+搜索-{{ search_name}}-结果
+{% endblock %}
+
+{% block shahu_list_title2 %}<a href="{% url 'shahu_list' %}"><small>全部>></small></a>{% endblock %}
+
+
+{% block nav_shahu_data %}
+
+
+{% endblock %}
+
+
+{% block nav_shahu_centent %}
+
+<div class="row">
+    <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+      搜索傻乎内容结果(20篇)
+      <hr style="height:2px;border:none;border-top:2px double #1a1a1a;">
+
+        <ul>
+           {% for shahu in shahus_list_search %}
+           <li><a href="{% url 'shahu_detail' shahu.pk %}">{{ shahu.title }}</a>
+               <span class="label label-default" style="float: right">阅读量{{ shahu.get_read_num }}
+                   <a href="{% url 'search_profile' user.pk %}">
+                       <small class="glyphicon glyphicon-user" style="float: right">
+                       {% if user.has_nickname %} {{ user.get_nickname }}
+                       {% else %} {{ user.username}}
+                       {% endif %}
+                        </small>
+                   </a></span>
+
+           </li>
+
+           {% empty %}
+           <p>暂无，更新ing</p>
+           {% endfor %}
+       </ul>
+
+
+  </div>
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+      搜索标题结果
+      <hr style="height:2px;border:none;border-top:2px double #1a1a1a;">
+      <ul>
+          {% for shahu_type in type_list_search %}
+          <li><a href="{% url 'shahus_with_type' shahu_type.pk %}">
+              {{ shahu_type.type_name }}
+              <span class="badge">{{ shahu_type.shahu_count }}</span></a></li>
+          {% empty %}
+          <p>暂无，更新ing</p>
+          {% endfor %}
+       </ul>
+  </div>
+  <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+      搜索用户结果
+      <hr style="height:2px;border:none;border-top:2px double #1a1a1a;">
+      <ul>
+          {% for user_search in user_list_search %}
+          <li><a href="{% url 'search_profile' user_search.user.pk %}">{{ user_search.user.get_nickname}}</a></li>
+          {% empty %}
+          <p>暂无，更新ing</p>
+          {% endfor %}
+       </ul>
+
+  </div>
+
+</div>
+
+{%endblock%}
