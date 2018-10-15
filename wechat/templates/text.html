@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>跨域</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+</head>
+<body>
+<h1>伪造请求</h1>
+<input type="button" onclick="getCourse()"/>
+<script>
+    function getCourse() {
+        $ajax({
+            url:'http://127.0.0.1:8000/text/',
+            type:'GET',
+            success:function (arg) {
+                console.log(arg)
+            }
+        })
+    }
+</script>
+</body>
+</html>
