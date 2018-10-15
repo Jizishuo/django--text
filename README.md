@@ -21,3 +21,6 @@ api测试
 
 #project
 随便打打
+
+#wechat
+测试rest_framework的api
