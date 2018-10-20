@@ -1,0 +1,40 @@
+<VirtualHost *:80>
+        ServerName jizishuo.cn
+
+
+        WSGIDaemonProcess mysite python-home=/home/mysite_env  python-path=/home/mysite
+        WSGIProcessGroup mysite
+        WSGIScriptAlias /  /home/mysite/mysite/wsgi.py
+
+        <Directory /home/mysite/mysite>
+        <Files wsgi.py>
+        Require all granted
+        </Files>
+        </Directory>
+
+        #开发静态目录
+        Alias /static/ /home/mysite/static_all/
+
+        <Directory /home/mysite/static_all>
+        Require all granted
+        </Directory>
+
+        Alias /favicon.ico  /home/mysite/media/favicon.ico
+        Alias /media/  /home/mysite/media/
+        <Directory /home/mysite/media>
+        Require all granted
+        </Directory>
+
+        #反爬
+        <Location />
+         SetEnvIfNoCase User-Agent ".*(FeedDemon|Indy Library|Alexa Toolbar|AskTbFXTV|AhrefsBot|CrawlDaddy|CoolpadWebkit|Java|Feedly|UniversalFeedParser|ApacheBench|Microsoft URL Control|Swiftbot|ZmEu|oBot|jaunty|Python-urllib|lightDeckReports Bot|YYSpider|DigExt|HttpClient|MJ12bot|heritrix|EasouSpider|Ezooms)" bad_bot
+         #空User-Agaent头
+         BrowserMatch "^$" bad_bot
+
+         <RequireAll>
+        Require all granted
+        Require not env bad_bot
+         </RequireAll>
+        </Location>
+
+</VirtualHost>
