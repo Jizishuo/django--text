@@ -1,5 +1,5 @@
 # django--text
-django--测试项目s
+django--测试项目集合
 
 #alipay
 支付宝接口测试
@@ -8,19 +8,19 @@ django--测试项目s
 api测试
 
 #django-ueditor
-表情测试
+测试输入表情
 
 #lugei
-随便打打
+练手前后分离项目
 
 #mysite
-个人博客随便打打
+个人博客（未完工程）
 
 #myproject
 测试celery
 
 #project
-随便打打
+测试网上商城开发模式
 
 #wechat
 测试rest_framework的api
