@@ -24,3 +24,6 @@ api测试
 
 #wechat
 测试rest_framework的api
+
+#mini_web_frame
+模拟的小型web框架

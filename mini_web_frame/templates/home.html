@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>home</title>
+
+    <link rel="stylesheet" href="./static/bootstrap-3.3.7/css/bootstrap.min.css'">
+    <link rel="stylesheet" href="./static/bootstrap-3.3.7/css/reset.css">
+    <link rel="stylesheet" href="./static/bootstrap-3.3.7/css/swiper.min.css">
+    <script type="text/javascript" src="./static/bootstrap-3.3.7/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="./static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./static/bootstrap-3.3.7/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="./static/bootstrap-3.3.7/js/swiper.min.js"></script>
+
+</head>
+<body>
+<div class="jumbotron">
+    <div class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <h1>home!</h1>
+                <blockquote>
+                <p>可随意发布健康内容，详情可看公告,测试出bug可任意方式连续版主</p>
+                    <footer><del>欢迎。来到我的web(持续更新ing)</del></footer>
+                </blockquote>
+
+                <ul style="float: right">
+                    <li><span class="label label-danger" >模板标签:{% content %}</span></li>
+                </ul>
+            </div>
+    </div>
+</div>
+
+
+<!--第一版-->
+<div class="row">
+  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+    <div class="col-xs-12 col-sm-11 col-md-11 col-lg-11">
+        <span class="glyphicon glyphicon-pencil title-fist"></span>
+        <span class="title-fist">傻乎</span>
+        <span>共{{ shahu_all_num }}篇傻乎</span>
+        <a href="/index.html" target="_blank"><small>more>></small></a>
+        <a href="/index.html" ><small>more>></small></a>
+
+    </div>
+</div>
+
+  <div class=" hidden-xs col-sm-1 col-md-1 col-lg-1"></div>
+    <div class="col-xs-12 col-sm-11 col-md-11 col-lg-11">
+
+        <span>数据库</span>
+        <table class="table">
+            <tbody>
+            {% mysql_info %}
+            <tr><td>序号:</td><td>name:%s</td><td>like:%s</td><td>age:%s</td></tr><button type="submit">添加</button>
+            </tbody>
+
+        </table>
+
+
+
+    </div>
+
+</body>
+</html>
