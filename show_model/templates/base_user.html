@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}用户中心{% endblock title %}
+
+{% block body %}
+
+    
+<div class="row">
+  <div class="col-md-2"></div>
+  <div class="col-md-8">
+
+<div class="alert alert-success" role="alert">
+  <a href="{% url 'user:user' %}" class="alert-link">个人信息</a>
+</div>
+      {% block user_info %}{% endblock %}
+
+<div class="alert alert-info" role="alert">
+  <a href="{% url 'user:order' 1 %}" class="alert-link">全部订单</a>
+</div>
+  {% block user_order %}{% endblock %}
+
+<div class="alert alert-danger" role="alert">
+  <a href="{% url 'user:address' %}" class="alert-link">收货地址</a>
+</div>
+  {% block user_adress %}{% endblock %}
+
+  </div>
+  <div class="col-md-2"></div>
+</div>
+
+
+
+{% endblock body %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block title %}搜索---{{ query }}{% endblock title %}
+
+
+{% block body %}
+
+    <div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+
+
+    <div class="row">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3>搜索所有商品</h3>
+
+
+
+          {% for goods in page %}
+              <a href="{% url 'goods:detail' goods.object.id %}"><p>名字{{ goods.object.name }}{{ goods.object.image }}</p></a>
+          <p>价格{{ goods.object.price }}销量{{ goods.object.sales }}</p>
+          {% endfor %}
+      </div>
+    </div>
+    </div>
+
+
+
+  <nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+        {% if page.has_previous %}
+      <a href="/search?q={{ query }}&page={{ page.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+        {% endif %}
+    </li>
+  {% for pindex in paginator.page_range %}
+        <li>
+            {% if pindex == page.number %}
+                <a href="/search?q={{ query }}&page={{ pindex }}" class="active">
+            {% else %}
+                <a href="/search?q={{ query }}&page={{ pindex }}" class="">
+            {% endif %}
+      {{ pindex }}</a></li>
+    {% endfor %}
+    <li>
+        {% if page.has_next %}
+      <a href="/search?q={{ query }}&page={{ page.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+        {% endif %}
+    </li>
+  </ul>
+</nav>
+
+
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+{% endblock body %}

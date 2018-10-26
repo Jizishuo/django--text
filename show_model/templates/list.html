@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block title %}种类分类---{{ type.name }}{% endblock title %}
+
+
+{% block body %}
+
+    <div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+
+  <div class="row">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3>所有种类</h3>
+          {% for tt in types %}
+              <a href="{% url 'goods:list' tt.id 1 %}"><p>名字{{ tt.name }}{{ tt.image }}</p></a>
+          <p>详情{{ tt.logo }}</p>
+          {% endfor %}
+      </div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3>种类下所有商品</h3>
+
+      <ul class="nav nav-pills" role="tablist">
+          <li role="presentation" {% if sort == 'default' %}class="active"{% endif %}><a href="{% url 'goods:list' type.id 1 %}?sort=default">默认 </a></li>
+          <li role="presentation" {% if sort == 'hot' %}class="active"{% endif %}><a href="{% url 'goods:list' type.id 1 %}?sort=hot">销量</a></li>
+          <li role="presentation" {% if sort == 'price' %}class="active"{% endif %}><a href="{% url 'goods:list' type.id 1 %}?sort=price">价格 </a></li>
+        </ul>
+
+
+          {% for goods in goods_page %}
+              <a href="{% url 'goods:detail' goods.id %}"><p>名字{{ goods.name }}{{ goods.image }}</p></a>
+          <p>价格{{ goods.price }}销量{{ goods.sales }}</p>
+          {% endfor %}
+      </div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3>新品推荐</h3>
+        {% for good in new_sku %}
+            <a href="{% url 'goods:detail' good.id %}"><p>{{ good.name }}价格{{ good.price }}</p></a>
+        {% endfor %}
+      </div>
+    </div>
+    </div>
+
+
+
+  <nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+        {% if goods_page.has_previous %}
+      <a href="{% url 'goods:list' type.id goods_page.previous_page_number %}?sort={{ sort }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+        {% endif %}
+    </li>
+  {% for pindex in pages %}
+        <li>
+            {% if pindex == goods_page.number %}
+                <a href="{% url 'goods:list' type.id pindex %}?sort={{ sort }}" class="active">
+            {% else %}
+                <a href="{% url 'goods:list' type.id pindex %}?sort={{ sort }}" class="">
+            {% endif %}
+      {{ pindex }}</a></li>
+    {% endfor %}
+    <li>
+        {% if goods_page.has_next %}
+      <a href="{% url 'goods:list' type.id goods_page.next_page_number %}?sort={{ sort }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+        {% endif %}
+    </li>
+  </ul>
+</nav>
+
+
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+{% endblock body %}

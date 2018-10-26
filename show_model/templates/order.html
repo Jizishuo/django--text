@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block title %}购物车付款{% endblock title %}
+
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+
+  <div class="row">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3>购物车所有东西</h3>
+          {% for sku in skus %}
+              <ul class="goods_list_td clearfix">
+              <li>名字{{ sku.name }}{{ sku.image }}</li>
+              <li>详情{{ sku.logo }}</li>
+              <li>{{ sku.count }}</li>
+              <li>{{ sku.amount }}</li>
+              </ul>
+          {% endfor %}
+      </div>
+    </div>
+    </div>
+
+
+  <div class="common_list_con clearfix">
+      <dl>
+          <dt>寄送到:</dt>
+              {% for addr in addrs %}
+                <dd><input type="radio"
+                      name="addr_id" value="{{ addr.id }}" {% if addr.is_default %}checked{% endif %}>
+               地址{{ addr.addr }}收件人{{ addr.receiver }}
+                </dd>
+               {% endfor %}
+      </dl>
+  <a href="{% url 'user:address' %}">编辑收货地址</a>
+  </div>
+
+  <h3>支付方式</h3>
+  <div class="common_list_con clearfix">
+      <div class="pay_sttle_con clearfix">
+          <input type="radio" name="pay_style" value="1">
+          <label class="cash">货到付款</label>
+          <input type="radio" name="pay_style" value="2">
+          <label class="weixin">微信支付</label>
+          <input type="radio" name="pay_style" checked value="3">
+          <label class="zhifubao">支付宝支付</label>
+          <input type="radio" name="pay_style" value="4">
+          <label class="bank">银行卡支付</label>
+      </div>
+  </div>
+
+
+  <ul>
+      <li>运费{{ transit_price }}</li>
+      <li>小计{{ total_price }}</li>
+      <li>数量{{ total_count }}</li>
+
+      <li>实际付款{{ total_pay }}</li>
+  </ul>
+
+
+  <div class="order_submit clearfix">
+      {% csrf_token %}
+      <a href="javascript:;" sku_ids="{{ sku_ids }}" id="order_btn">提交订单</a>
+  </div>
+
+
+
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+    <div class="popup_con">
+    <div class="popup">
+        <p>订单提交成功</p>
+    </div>
+    </div>
+
+
+<script type="text/javascript">
+    $('#order_btn').click(function () {
+        //获取用户选择的地址，支付方式，要购买的商品
+        addr_id = $('input[name="addr_id"]:checked').val()
+        pay_method = $('input[name="pay_style"]:checked').val()
+        sku_ids = $(this).attr('sku_ids')
+        csrf = $('input[name="csrfmiddlewaretoken"]').val()
+        //alert(addr_id+':'+pay_method+':'+sku_ids)//431
+        params = {'addr_id':addr_id, 'pay_method':pay_method,'sku_ids':sku_ids, 'csrfmiddlewaretoken':csrf }
+        //发请求 /order/commit
+        $.post('/order/commit/', params, function (data) {
+            //创建成功
+            if(data.res == 5){
+                //alert('创建成功')
+                localStorage.setItem('order_finish', 2);
+                $('.popup_con').fadeIn('fast', function () {
+                    setTimeout(function () {
+                        $('.popup_con').fadeOut('fast', function () {
+                            window.location.href='/user/order/1/';
+                        });
+                    }, 3000)
+                });
+            }else {
+                alert(data.errmsg)
+            }
+        })
+
+    })
+</script>
+
+{% endblock body %}

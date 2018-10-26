@@ -1,0 +1,100 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/reset.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap-3.3.7/css/swiper.min.css' %}">
+    {% block link %}{% endblock link %}
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/jquery-1.12.4.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/jquery-3.1.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap-3.3.7/js/swiper.min.js' %}"></script>
+    {% block script %}{% endblock script %}
+
+
+</head>
+<body>
+
+{% block header_one %}
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{% url 'goods:index' %}">天狗</a>
+    </div>
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+      <form class="navbar-form navbar-left" method="get" action="/search">
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="搜索" name="q">
+        </div>
+        <button type="submit" class="btn btn-default">搜索</button>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+          {% if user.is_authenticated %}
+              <li><a>欢迎:{{ user.username }}</a></li>
+              <li><a href="{% url 'user:logout' %}">退出</a></li>
+          {% else %}
+              <li><a href="{% url 'user:login' %}">登录</a></li>
+               <li><a href="{% url 'user:register' %}">注册</a></li>
+          {% endif %}
+
+         <li><a href="{% url 'user:user' %}">用户中心</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的购物车 <span class="badge" id="show_count">{{ cart_count }}</span></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'cart:cart' %}">我的购物车</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">我的订单 <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+
+{% endblock header_one %}
+
+
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+
+<h1>444444444444</h1>
+
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+{% endblock body %}
+
+</body>
+</html>

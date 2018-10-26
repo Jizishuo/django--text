@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% block title %}首页{% endblock title %}
+
+
+{% block body %}
+
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+
+    <div class="alert alert-success" role="alert">
+      <a href="#" class="alert-link">种类</a>
+    </div>
+
+      <ul>
+          {% for type in types %}
+              <li><a href="{% url 'goods:list' type.id 1 %}">
+                  顺序:{{ forloop.counter }}//logo:{{ type.logo }}//name:{{ type.name }}</a></li>
+          {% endfor %}
+      </ul>
+
+
+    <div class="alert alert-info" role="alert">
+      <a href="#" class="alert-link">轮播商品</a>
+    </div>
+       <ul>
+          {% for banners in goods_banners %}
+              <li><a href="{% url 'goods:detail' banners.sku.id %}">顺序:{{ forloop.counter }}//imageurl:{{ banner.image }}//name:{{ banner.name }}</a></li>
+          {% endfor %}
+      </ul>
+
+
+    <div class="alert alert-warning" role="alert">
+      <a href="#" class="alert-link">促销活动</a>
+    </div>
+       <ul>
+          {% for banner in promotion_banners %}
+          <li>顺序:{{ forloop.counter }}//image:{{ banner.image }}//name:{{ banner.name }}//url{{ banner.url }}</li>
+          {% endfor %}
+      </ul>
+
+
+    <div class="alert alert-danger" role="alert">
+      <a href="#" class="alert-link">种类详细</a>
+    </div>
+
+       <ul>
+          {% for type in types %}
+          <li>顺序:{{ forloop.counter }}//logo:{{ type.logo }}//name:{{ type.name }}//
+              {% for banner in type.image_banners %}
+                  <a href="{% url 'goods:detail' banner.sku.id %}">//对应分类具体商品{{ banner.sku.name }}//image:{{ banner.sku.image }}</a>
+              {% endfor %}
+          </li>
+          {% endfor %}
+      </ul>
+
+  </div>
+  <div class="col-md-3"></div>
+</div>
+
+
+{% endblock body %}

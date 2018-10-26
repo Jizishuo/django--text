@@ -1,0 +1,31 @@
+{% extends 'base_user.html' %}
+
+{% block user_info %}
+
+<dl class="dl-horizontal">
+    <dt>用户名:</dt><dd>{{ user.username }}</dd>
+    {% if address %}
+        <dt>地址:</dt><dd>{{ address.addr }}</dd>
+        <dt>联系方式:</dt><dd>{{ address.phone }}</dd>
+    {% else %}
+        <dt>无默认地址:</dt><dd>无默认地址</dd>
+    {% endif %}
+</dl>
+
+
+
+    <h1>最近浏览:</h1>
+    <ol>
+    {% for goods in goods_li %}
+        <li><a href="{% url 'goods:detail' goods.id %}">
+            {{ goods.image }}{{ goods.url }}{{ goods.name }}{{ goods.price }}</a></li>
+    {% empty %}
+        <p>无历史记录</p>
+    {% endfor %}
+
+
+    </ol>
+
+
+
+{% endblock %}
