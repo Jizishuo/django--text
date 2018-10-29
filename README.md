@@ -1,4 +1,4 @@
-# django--text
+# django部分项目集合
 django--测试项目集合
 
 #alipay
@@ -24,9 +24,11 @@ api测试
 
 #wechat
 测试rest_framework的api
+(测试一下rest-api的功能实现)
 
 #mini_web_frame
 模拟的小型web框架
 
 #show_model
 商城模型项目
+(FastDFS分布存储图片，redis，celery 分布缓存 异步请求，搜索引擎django_shaystack,whoosh)
