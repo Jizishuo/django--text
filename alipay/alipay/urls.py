@@ -19,7 +19,7 @@ from spp1 import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', views.index),
+    path('index/', views.index),#主页
     path('pay_result/', views.result),
     path('update_order/', views.update_order),
 ]
