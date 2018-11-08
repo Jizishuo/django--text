@@ -1,4 +1,5 @@
 193.112.37.94
+10.251.128.135
 sudo apt-get        没有权限价格sudo
 
 使用root用户
@@ -83,38 +84,135 @@ cat/var/log/apache2/error.log
 sudo chmod 777 /home/mysite/media
 
 
+执行多个命令 ls;cd..... 用分号
 
-ls
-cd
-pwd
-rm
-cat
-cp
-scp
-mv
-mkdir
-touch
-tree
-top
-htop
-ps
-kill
+ll ====ls -lah
+ls  ls -l(以列表显示) -a(显示全部包括隐藏) -h  -lah(随意组合) ls 2* (查看1开头的文件) ls *2
+(重定向)ls > xxx.txt(把命令显示的东西写到xxx.txt) ls >> xxx.txt (后边追加上去)
+例子 ： ls -lah /bin | more  ls -lah /bin > xxx.txt
+ 
+cd cd- (返回) cd ~(家目录)
+pwd 查看当前目录
+mkdir  创建文件夹
+mkdir a/b/a/ -p
+
+touch 如果文件不存在 新建一个
+rm   rm -rf(删除文件夹) rm xx -r(递归删除)  rm / -tf
 clear
+
+
+cat (查看) cat xx.text xxxx.txt > xin.txt
+more（查看大一点的文件）(能分屏)
+
+cp (复制粘贴)
+scp
+mv (重命名/移动) mv 原文件名字 新名字
+
+ln (创建硬链接) ln -s (软连接) ln (文件名) （连接名）
+
+grep (搜索) grep 'xx' xxx.txt grep -v 'xx' xxx.txt(不包含)
+
+find (搜索文件) find / -name "*name*" find / -size +1G
+find / -perm 777
+
+tree
+
+tar (打包/压缩) -c -v -f  -C /xx/  例如:tar -zcvf text.tar.gz *.py
+    (解包) tar -zxvf text.tar.gz  //tar -jcvf text.tar.bz2 *.py tar -jxvf text.tar.bz2
+zip(压缩) zip xxx.zip *.py  (解压)unzip xxx.zip
+
+   
+
+htop （查看进程高级）
+ps (查看进程、任务管理器) ps -aux(所有)
+top (查看进程 允许情况)
+kill (结束进程) kill PID（数字）kill -9 pid (强制终止)
+
 history
-ifconfig
-ping
-ssh
+!300 (执行第300行历史命令)
+
+ifconfig (查看网络) ifconfig | grep 172
+
+ping (测试能不能上网) ping ip (看能不能通)
+
+ssh  ssh 用户名@ip 远程连接
+
 chmod
-shutdown
-reboot
-find
-grep
-ln
-sudo
-help
-man
-which
-who
-whoami
+
+
+sudo 拿到最高权限
+
+
 >     重定向输出
 |     管道
+
+
+命令 --help (可以看文档) 例如 ls --help
+man 命令 (可以看文档) 例如 man ls 
+which  例如 ：which ls
+
+
+#系统的
+cal 查看日期 cal -y 2018
+date 查看当前时间
+
+shutdowm -h +10 (20分钟后关机)
+reboot (重启)
+
+df -h (看硬盘内存)
+
+ueradd (添加用户) useradd 用户名 -m
+passwd (添加密码) passwd  用户名
+userdel (删除用户)
+
+groupadd (创建组) 
+groupdel (删除组)
+
+su 用户名 （切换用户）
+
+who 查看用户
+whoami 查看当前用户
+
+exit (回到之前的账户)
+
+给用户sudo 的权限
+sudo usermod -a -G sudo xxx
+sudo usermod -a -G adm xxx
+
+rwx 可读可写可执行 r--只能读 r-x 可读 可执行
+
+
+chown (用户) xxx.py 
+chmod (修改文件权限)  chmod u=rwx xx.py chmod g=rwx xx.py
+
+u 文件的拥有者 r->4
+g 同组         w->2
+0 其他         x->1
+
+4+2+1=7 (所以777代表ugo) chmod 777 xx.py
+
+
+vi vim 命令
+编辑模式--命令模式-- 末行模式
+
+换编辑模式 i a o I A O
+
+复制 yy  4yy 光标下边4行一起复制
+粘贴 p
+删除/剪切 dd  2dd 光标所在向下删2行
+
+h左  j下  k上  l右
+M 当前屏幕中间 H最上 L最下
+翻页 ctrl +f +b
+
+30G 快速定位到 第30行  G 直接最后一行  gg第一行
+
+W 向后跳一个单词
+b 向前跳一个单词
+
+D 向后开始剪切到最后
+u 撤销刚刚的操作  ctrl+r 反撤销
+x 向后删一个 X 向前删
+v 选择行 V 选择整行
+>> 移动
+<< 移动
