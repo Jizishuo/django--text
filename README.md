@@ -32,3 +32,6 @@ api测试
 #show_model
 商城模型项目
 (FastDFS分布存储图片，redis，celery 分布缓存 异步请求，搜索引擎django_shaystack,whoosh)
+
+#爬虫
+防爬虫接口测试
